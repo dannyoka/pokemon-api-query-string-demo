@@ -5,9 +5,9 @@ var typeSelectBtn = document.querySelector("#type-btn");
 
 var POKEAPI_BASE_URL = "https://pokeapi.co/api/v2/";
 
-function getStarterUrl() {
+function getStarterUrl(pokemonName) {
   var newURL = POKEAPI_BASE_URL + "pokemon/";
-  newURL += pokemonSelectEl.value;
+  newURL += pokemonName;
   return newURL;
 }
 
@@ -17,9 +17,24 @@ function getTypeUrl() {
   return newURL;
 }
 
+function savePokemonToLocalStorage(pokemonName) {
+  var savedPokemon = JSON.parse(localStorage.getItem("pokemon")) || [];
+  savedPokemon.push(pokemonName);
+  localStorage.setItem("pokemon", JSON.stringify(savedPokemon));
+}
+
+function transformPokemon(pokemonArray) {
+  var newURL = getStarterUrl(pokemonArray[0]);
+  return newURL;
+}
+
 chooseBtnEl.addEventListener("click", function () {
-  var searchUrl = getStarterUrl();
-  fetch(searchUrl)
+  var pokemonChoice = pokemonSelectEl.value;
+  savePokemonToLocalStorage(pokemonChoice);
+  var savedPokemon = JSON.parse(localStorage.getItem("pokemon"));
+  var searchURL = transformPokemon(savedPokemon);
+
+  fetch(searchURL)
     .then(function (response) {
       return response.json();
     })
