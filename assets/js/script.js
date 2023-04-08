@@ -28,6 +28,7 @@ function transformPokemon(pokemonArray) {
   return newURL;
 }
 
+console.log('add something new')
 chooseBtnEl.addEventListener("click", function () {
   var pokemonChoice = pokemonSelectEl.value;
   savePokemonToLocalStorage(pokemonChoice);
